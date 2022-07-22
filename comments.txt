@@ -1,0 +1,28 @@
+1.- GETSTATICPROPS
+
+// is called at the build time, and it`s called only once
+// export async function getStaticProps() {
+//   let data = [];
+//   const resData = await fetch("http://localhost:3000/api/resources");
+
+//   console.log('getStaticProps');
+//   if (resData.status !== 404) {
+//     data = await resData.json();
+//   } else {
+//     data = dataJson;
+//   }
+
+//   return {
+//     props: { resources: data },
+//   };
+// }
+
+/* ****************************************************** */
+
+2.- GETSERVERSIDEPROPS
+
+// is called every time you will visit the page
+// function is executed on the serve
+// data are always fresh
+
+/* ****************************************************** */
