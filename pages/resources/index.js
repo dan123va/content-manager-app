@@ -1,18 +1,38 @@
 import React, { useState } from "react";
 import Layout from "components/Layout";
+import axios from "axios";
+import { useRouter } from "next/router";
+
 const DEAFULT_DATA = {
   title: "",
   description: "",
   link: "",
-  priority: "",
+  priority: "1",
   timeToFinish: "",
 };
 
 export default function index() {
   const [form, setForm] = useState(DEAFULT_DATA);
+  const router = useRouter();
 
   const submitForm = () => {
-    alert(JSON.stringify(form));
+    axios
+      .post("/api/resources", form)
+      .then(() => router.push("/"))
+      .catch((err) => {
+        alert(err?.response?.data);
+      });
+  };
+
+  const resetForm = () => setForm(DEAFULT_DATA);
+
+  const handleChage = (e) => {
+    const { name, value } = e.target;
+
+    setForm({
+      ...form,
+      [name]: value,
+    });
   };
 
   return (
@@ -29,6 +49,8 @@ export default function index() {
                     <div className="control">
                       <input
                         value={form.title}
+                        onChange={handleChage}
+                        name="title"
                         className="input"
                         type="text"
                         placeholder="Learn Next JS and Sanity IO"
@@ -40,6 +62,8 @@ export default function index() {
                     <div className="control">
                       <textarea
                         value={form.description}
+                        onChange={handleChage}
+                        name="description"
                         className="textarea"
                         placeholder="Learn these technologies beacuase ther are very popular and enable better SEO."
                       ></textarea>
@@ -50,6 +74,8 @@ export default function index() {
                     <div className="control">
                       <input
                         value={form.link}
+                        onChange={handleChage}
+                        name="link"
                         className="input"
                         type="text"
                         placeholder="https://academy.eincode.com"
@@ -60,7 +86,11 @@ export default function index() {
                     <label className="label">Priority</label>
                     <div className="control">
                       <div className="select">
-                        <select value={form.priority}>
+                        <select
+                          value={form.priority}
+                          onChange={handleChage}
+                          name="priority"
+                        >
                           <option>1</option>
                           <option>2</option>
                           <option>3</option>
@@ -73,6 +103,8 @@ export default function index() {
                     <div className="control">
                       <input
                         value={form.timeToFinish}
+                        onChange={handleChage}
+                        name="timeToFinish"
                         className="input"
                         type="number"
                         placeholder="60"
@@ -91,7 +123,11 @@ export default function index() {
                       </button>
                     </div>
                     <div className="control">
-                      <button className="button is-link is-light">
+                      <button
+                        onClick={resetForm}
+                        type="button"
+                        className="button is-link is-light"
+                      >
                         Cancel
                       </button>
                     </div>
