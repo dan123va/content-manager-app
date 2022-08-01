@@ -25,4 +25,58 @@
 // function is executed on the serve
 // data are always fresh
 
+// export async function getServerSideProps({ params }) {
+//   const resData = await fetch(
+//     `http://localhost:3001/api/resources/${params.id}`
+//   );
+//   const data = await resData.json();
+
+//   return {
+//     props: {
+//       resource: data,
+//     },
+//   };
+// }
+
+
 /* ****************************************************** */
+
+3.- getInitialProps
+
+// getInitialProps practicamente fue sustituido por getServerSideProps 
+// para poder tener un mejor control del codigo ademas de que con getInitialProps
+// el codigo se ejecuta inicialmente de lado del cliente pudiendo causar problemas 
+// con elementos que solo los debe tener el servidor
+
+// ResourceDetail.getInitialProps = async ({ query }) => {
+//   console.log('getInitialProps JAJAJA');
+//   const resData = await fetch(
+//     `http://localhost:3001/api/resources/${query.id}`
+//   );
+//   const data = await resData.json();
+
+//   return {
+//     resource: data,
+//   };
+// };
+
+/* ****************************************************** */
+
+4.- GETSTATICPATHS
+
+export async function getStaticPaths() {
+  const resData = await fetch("http://localhost:3001/api/resources");
+  const data = await resData.json();
+
+  const paths = data.map((resource) => {
+    return {
+      params: { id: resource.id },
+    };
+  });
+
+  return {
+    paths,
+    // means that other routes resolve into 404 page
+    fallback: true,
+  };
+}
