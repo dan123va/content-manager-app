@@ -1,8 +1,19 @@
 import React from "react";
 import Layout from "components/Layout";
 import Link from "next/link";
+import axios from "axios";
 
 export default function Resource({ resource }) {
+  const activateResource = () => {
+    axios
+      .patch("/api/resources", {
+        ...resource,
+        status: "active",
+      })
+      .then(() => alert("Resource has been activated"))
+      .catch(() => alert("Cannot activate the resource"));
+  };
+
   return (
     <Layout>
       <section className="hero ">
@@ -15,9 +26,16 @@ export default function Resource({ resource }) {
                     <h2 className="subtitle is-4">{resource.createAt}</h2>
                     <h1 className="title">{resource.title}</h1>
                     <p>{resource.description}</p>
+                    <p>Time to finish: {resource.timeToFinish} min</p>
                     <Link href={`/resources/${resource.id}/edit`}>
                       <a className="button is-warning">Update</a>
                     </Link>
+                    <button
+                      onClick={activateResource}
+                      className="button is-success ml-1"
+                    >
+                      Activate
+                    </button>
                   </div>
                 </div>
               </div>
