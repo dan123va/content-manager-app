@@ -10,7 +10,7 @@ export default function Resource({ resource }) {
         ...resource,
         status: "active",
       })
-      .then(() => alert("Resource has been activated"))
+      .then(() => location.reload())
       .catch(() => alert("Cannot activate the resource"));
   };
 
